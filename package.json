@@ -1,0 +1,25 @@
+{
+  "name": "disfox",
+  "version": "0.0.5-a",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "type": "module",
+  "files": [
+    "dist",
+    "CHANGELOG.md"
+  ],
+  
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch"
+  },
+  "description": "A simple small support for discord.js",
+  "author": "xFoxyyy0",
+  "license": "MIT"
+}

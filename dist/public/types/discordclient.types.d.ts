@@ -1,0 +1,16 @@
+export type AvatarInput = string | Buffer | ArrayBuffer | Uint8Array;
+export interface DiscordClient {
+    login(token: string): Promise<unknown>;
+    destroy(): void;
+    guilds: any;
+    user: {
+        id: string;
+        username: string;
+        avatar?: string;
+        setAvatar(image: AvatarInput): Promise<void>;
+        setPresence({}: {}): Promise<void>;
+    };
+    on: (event: string, listener: (...args: any[]) => void) => void;
+    once: (event: string, listener: (...args: any[]) => void) => void;
+}
+//# sourceMappingURL=discordclient.types.d.ts.map
