@@ -73,3 +73,8 @@ Disfox is now available on GitHub with **documentation, examples, and TypeScript
 - Fixed extraction bugs in **SlashService**.
 - Fixed extraction bugs in **EventService**.
 - Fixed bugs when deploying **Slash Commands**.
+
+## [0.0.5-c] - 2026-03-13
+
+### Fixed
+- Fixed unwanted debug logs.

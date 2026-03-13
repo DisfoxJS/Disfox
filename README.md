@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/DisfoxJS/Disfox-assets/main/dsfx500.png" width="200" />
+  <img src="https://raw.githubusercontent.com/DisfoxJS/Disfox-assets/main/dsfx500.png" width="300" />
 </p>
 
 <p align="center">

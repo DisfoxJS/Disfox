@@ -47,14 +47,14 @@ export class SlashService {
      * The result separates valid and invalid command modules.
      *
      * @param {string} dir - Absolute or relative path to the directory containing command files.
-     * @returns {Promise<{ valids: SlashCommand[], invalids: any[] }>} 
+     * @returns {Promise<{ valid: SlashCommand[], invalid: any[] }>} 
      * An object containing arrays of valid and invalid commands.
      */
     static async extractDir(dir: string) {
         const cmdsPath = path.resolve(dir)
         const files = fs.readdirSync(cmdsPath).filter(f => f.endsWith(".js"))
-        const valids: SlashCommand[] = []
-        const invalids: any[] = []
+        const valid: SlashCommand[] = []
+        const invalid: any[] = []
 
         for (const file of files) {
             const filePath = path.join(cmdsPath, file);
@@ -62,13 +62,13 @@ export class SlashService {
             const command = imported.default ?? imported;
             
             if ("data" in command && "execute" in command) {
-                valids.push(command)
+                valid.push(command)
             } else {
-                invalids.push(command)
+                invalid.push(command)
             }
         }
 
-        return {valids, invalids};
+        return {valid, invalid};
     }
     /**
      * Extracts a slash command from a single file and validates its structure.
@@ -86,8 +86,6 @@ export class SlashService {
     static async extractFile(filePath: string) {
         const resolved = path.resolve(filePath)
 
-    
-
         if (!filePath.endsWith('.js')) {
             throw new DisfoxError({
                 "code": DisfoxErrorCode.UNKNOWN_EXTENSION,
@@ -97,19 +95,19 @@ export class SlashService {
             })
         }
 
-        const valids: SlashCommand[] = []
-        const invalids: any[] = []
+        const valid: SlashCommand[] = []
+        const invalid: any[] = []
 
         const imported = await import(`file://${resolved.replace(/\\/g, "/")}`)
         const command = imported.default ?? imported
 
         if ("data" in command && "execute" in command) {
-            valids.push(command)
+            valid.push(command)
         } else {
-            invalids.push(command)
+            invalid.push(command)
         }
 
-        return {valids, invalids}
+        return {valid, invalid}
     }
     
 }

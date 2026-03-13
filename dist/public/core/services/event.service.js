@@ -11,25 +11,29 @@ export class EventService {
      * containing both `data` and `execute` properties.
      *
      * @param {string} dir - The path to the directory containing event files.
-     * @returns {Promise<{ valids: any[], invalids: EventType[] }>} An object containing arrays of valid and invalid events.
+     * @returns {Promise<{ valid: any[], invalid: EventType[] }>} An object containing arrays of valid and invalid events.
      */
     static async extractDir(dir) {
         const eventsPath = path.resolve(dir);
         const files = fs.readdirSync(eventsPath);
-        let valids = [];
-        let invalids = [];
+        let valid = [];
+        let invalid = [];
         for (const file of files) {
             const filePath = path.join(eventsPath, file);
             const imported = await import(`file://${filePath.replace(/\\/g, "/")}`);
             const event = imported.default ?? imported;
             if (("data" in event || "name" in event) && "execute" in event) {
+<<<<<<< HEAD
                 valids.push(event);
+=======
+                valid.push(event);
+>>>>>>> 1f68da6 (Disfox 0.0.5-c)
             }
             else {
-                invalids.push(event);
+                invalid.push(event);
             }
         }
-        return { valids, invalids };
+        return { valid, invalid };
     }
     /**
      * Extracts a single event module from a file.
@@ -39,7 +43,7 @@ export class EventService {
      * is unsupported.
      *
      * @param {string} filePath - The path to the `.js` event file.
-     * @returns {Promise<{ valids: EventType[], invalids: any[] }>} An object containing the valid event or invalid module.
+     * @returns {Promise<{ valid: EventType[], invalid: any[] }>} An object containing the valid event or invalid module.
      * @throws {DisfoxError} If the file extension is not `.js`.
      */
     static async extractFile(filePath) {
@@ -50,17 +54,24 @@ export class EventService {
                 "source": { "body": `EventService.extractFile()` },
             });
         }
-        const valids = [];
-        const invalids = [];
+        const valid = [];
+        const invalid = [];
         const resolved = path.resolve(filePath);
         const imported = (await import(`file://${resolved.replace(/\\/g, "/")}`));
         const event = imported.default ?? imported;
         if (("data" in event || "name" in event) && "execute" in event) {
+<<<<<<< HEAD
             valids.push(event);
         }
         else {
             invalids.push(event);
+=======
+            valid.push(event);
         }
-        return { valids, invalids };
+        else {
+            invalid.push(event);
+>>>>>>> 1f68da6 (Disfox 0.0.5-c)
+        }
+        return { valid, invalid };
     }
 }

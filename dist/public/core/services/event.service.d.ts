@@ -3,8 +3,8 @@ interface EventType {
     execute: (...args: any[]) => void;
 }
 interface ValidEvents {
-    valids: EventType[];
-    invalids: any[];
+    valid: EventType[];
+    invalid: any[];
 }
 export declare class EventService {
     /**
@@ -15,7 +15,7 @@ export declare class EventService {
      * containing both `data` and `execute` properties.
      *
      * @param {string} dir - The path to the directory containing event files.
-     * @returns {Promise<{ valids: any[], invalids: EventType[] }>} An object containing arrays of valid and invalid events.
+     * @returns {Promise<{ valid: any[], invalid: EventType[] }>} An object containing arrays of valid and invalid events.
      */
     static extractDir(dir: string): Promise<ValidEvents>;
     /**
@@ -26,12 +26,12 @@ export declare class EventService {
      * is unsupported.
      *
      * @param {string} filePath - The path to the `.js` event file.
-     * @returns {Promise<{ valids: EventType[], invalids: any[] }>} An object containing the valid event or invalid module.
+     * @returns {Promise<{ valid: EventType[], invalid: any[] }>} An object containing the valid event or invalid module.
      * @throws {DisfoxError} If the file extension is not `.js`.
      */
     static extractFile(filePath: string): Promise<{
-        valids: EventType[];
-        invalids: any[];
+        valid: EventType[];
+        invalid: any[];
     }>;
 }
 export {};

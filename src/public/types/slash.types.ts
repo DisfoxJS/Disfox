@@ -3,9 +3,9 @@ interface SlashCommand {
     execute: (...args: any[]) => void   
 }
 
-interface ValidsSlash {
-    valids: SlashCommand[]
-    invalids: any[]
+interface ValidSlash {
+    valid: SlashCommand[]
+    invalid: any[]
 }
 
-export { SlashCommand, ValidsSlash }
+export { SlashCommand, ValidSlash }
