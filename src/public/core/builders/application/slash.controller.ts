@@ -28,7 +28,7 @@ export class SlashController {
      * @param commands List of slash command objects.
      */
     async deployGlobal(commands: any[]) {
-        commands.map(command => this.#globalSlash.set(command.name, command))
+        commands.map(command => this.#globalSlash.set(command.data.name, command))
 
         await (this.#client as any).application.commands.set(
             commands.map(c => c.data.toJSON())
@@ -58,7 +58,7 @@ export class SlashController {
             }
 
             for (const command of commands) {
-                this.#guildSlash.set(command.name, command)
+                this.#guildSlash.set(command.data.name, command)
             }
 
             await guild.commands.set(
@@ -121,13 +121,9 @@ export class SlashController {
             ...this.#guildSlash.values()
         ];
 
-        const res = new Response({
-            commands: all,
-            data
-        });
-
+       
         this.#client.on("interactionCreate", async (interaction: any) => {
-
+            
             if (!interaction.isChatInputCommand()) return
 
             const cmd: any = all.find(

@@ -54,6 +54,17 @@ export default {
 }
 ```
 
+or
+
+```js
+export default {
+    name: Events.MessageCreate, // or any other event
+    async execute(message) {
+        // Execute code
+    }
+}
+```
+
 If the structure is **exactly like this**, the extractor will place the module into:
 
 ```
@@ -180,7 +191,7 @@ await myBot.connect();
 
 const events = await EventService.extractDir('./events');
 
-await myBot.events.listenEvents(events.valids);
+await myBot.events.listenEvents(events.valid);
 ```
 
 ---

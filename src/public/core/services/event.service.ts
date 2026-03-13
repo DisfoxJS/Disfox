@@ -9,8 +9,8 @@ interface EventType {
 }
 
 interface ValidEvents {
-    valids: EventType[]
-    invalids: any[]
+    valid: EventType[]
+    invalid: any[]
 }
 
 export class EventService {
@@ -22,27 +22,27 @@ export class EventService {
      * containing both `data` and `execute` properties.
      *
      * @param {string} dir - The path to the directory containing event files.
-     * @returns {Promise<{ valids: any[], invalids: EventType[] }>} An object containing arrays of valid and invalid events.
+     * @returns {Promise<{ valid: any[], invalid: EventType[] }>} An object containing arrays of valid and invalid events.
      */
     static async extractDir(dir: string): Promise<ValidEvents> {
         const eventsPath = path.resolve(dir)
         const files = fs.readdirSync(eventsPath)
 
-        let valids: any[] = []
-        let invalids: EventType[] = []
+        let valid: any[] = []
+        let invalid: EventType[] = []
 
         for (const file of files) {
             const filePath = path.join(eventsPath, file)
             const imported = await import(`file://${filePath.replace(/\\/g, "/")}`);
             const event = imported.default ?? imported;
 
-            if ("data" in event && "execute" in event) {
-                valids.push(event)
+            if (("data" in event || "name" in event) && "execute" in event) {
+                valid.push(event)
             } else {
-                invalids.push(event)
+                invalid.push(event)
             }
         }
-        return {valids, invalids}
+        return {valid, invalid}
     }
 
     /**
@@ -53,7 +53,7 @@ export class EventService {
      * is unsupported.
      *
      * @param {string} filePath - The path to the `.js` event file.
-     * @returns {Promise<{ valids: EventType[], invalids: any[] }>} An object containing the valid event or invalid module.
+     * @returns {Promise<{ valid: EventType[], invalid: any[] }>} An object containing the valid event or invalid module.
      * @throws {DisfoxError} If the file extension is not `.js`.
      */
     static async extractFile(filePath: string) {
@@ -66,18 +66,18 @@ export class EventService {
             })
         }
 
-        const valids: EventType[] = []
-        const invalids: any[] = []
+        const valid: EventType[] = []
+        const invalid: any[] = []
         const resolved = path.resolve(filePath)
         const imported = (await import(`file://${resolved.replace(/\\/g, "/")}`))
-        const module = imported.default ?? imported
+        const event = imported.default ?? imported
 
-        if ("data" in module && "execute" in module) {
-            valids.push(module)
+        if (("data" in event || "name" in event) && "execute" in event) {
+            valid.push(event)
         } else {
-            invalids.push(module)
+            invalid.push(event)
         }
 
-        return {valids, invalids}
+        return {valid, invalid}
     }
 }

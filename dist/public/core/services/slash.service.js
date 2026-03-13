@@ -88,12 +88,12 @@ export class SlashService {
         const valids = [];
         const invalids = [];
         const imported = await import(`file://${resolved.replace(/\\/g, "/")}`);
-        const module = imported.default ?? imported;
-        if ("data" in module && "execute" in module) {
-            valids.push(module);
+        const command = imported.default ?? imported;
+        if ("data" in command && "execute" in command) {
+            valids.push(command);
         }
         else {
-            invalids.push(module);
+            invalids.push(command);
         }
         return { valids, invalids };
     }

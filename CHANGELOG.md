@@ -66,3 +66,10 @@
 - Internal error class still in testing phase.
 
 Disfox is now available on GitHub with **documentation, examples, and TypeScript source code**: [https://github.com/FluxoArts/Disfox](https://github.com/FluxoArts/Disfox)
+
+## [0.0.5-b] - 2026-03-12
+
+### Fixed
+- Fixed extraction bugs in **SlashService**.
+- Fixed extraction bugs in **EventService**.
+- Fixed bugs when deploying **Slash Commands**.

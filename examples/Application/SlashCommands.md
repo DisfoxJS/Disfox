@@ -58,7 +58,7 @@ const myBot = new Application({
 ### Registering global commands
 
 ```js
-myBot.slashCommands.deployGlobal(["array_of_commands"]);
+myBot.slash.deployGlobal(["array_of_commands"]);
 ```
 
 Here we are registering **global commands** in Discord.  
@@ -69,7 +69,7 @@ The method receives an **array containing all the commands of your application**
 ### Registering commands in specific guilds
 
 ```js
-myBot.slashCommands.deployGuilds(
+myBot.slash.deployGuilds(
     ["array_of_commands"],
     ["array_of_guild_ids"]
 );
@@ -92,7 +92,7 @@ await myBot.connect();
 ## 7. Listening to Slash interactions
 
 ```js
-myBot.slashCommands.listen();
+myBot.slash.listen();
 ```
 
 Now the application starts **listening to slash commands** and will execute the `execute` function.
@@ -120,7 +120,7 @@ You can define:
 ### Custom message
 
 ```js
-myBot.slashCommands.listen({
+myBot.slash.listen({
     onError: {
         message: "An error occurred here! Let's try again?",
         flags: 64
@@ -139,7 +139,7 @@ Flags are available from **discord.js v14.14.0** onward.
 ### Using a custom callback
 
 ```js
-myBot.slashCommands.listen({
+myBot.slash.listen({
     onError: {
         callback: (interaction, error) => {
             interaction.reply(

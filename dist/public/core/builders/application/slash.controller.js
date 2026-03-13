@@ -26,7 +26,8 @@ export class SlashController {
      * @param commands List of slash command objects.
      */
     async deployGlobal(commands) {
-        commands.map(command => __classPrivateFieldGet(this, _SlashController_globalSlash, "f").set(command.name, command));
+        console.log("[Disfox Debug] - Registrando comandos global no atributo: ", commands);
+        commands.map(command => __classPrivateFieldGet(this, _SlashController_globalSlash, "f").set(command.data.name, command));
         await __classPrivateFieldGet(this, _SlashController_client, "f").application.commands.set(commands.map(c => c.data.toJSON()));
     }
     /**
@@ -48,7 +49,7 @@ export class SlashController {
                 });
             }
             for (const command of commands) {
-                __classPrivateFieldGet(this, _SlashController_guildSlash, "f").set(command.name, command);
+                __classPrivateFieldGet(this, _SlashController_guildSlash, "f").set(command.data.name, command);
             }
             await guild.commands.set(commands.map(c => c.data.toJSON()));
         }
@@ -91,10 +92,7 @@ export class SlashController {
             ...__classPrivateFieldGet(this, _SlashController_globalSlash, "f").values(),
             ...__classPrivateFieldGet(this, _SlashController_guildSlash, "f").values()
         ];
-        const res = new Response({
-            commands: all,
-            data
-        });
+        console.debug(`All commands: `, all);
         __classPrivateFieldGet(this, _SlashController_client, "f").on("interactionCreate", async (interaction) => {
             if (!interaction.isChatInputCommand())
                 return;

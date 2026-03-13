@@ -22,7 +22,7 @@ export class EventService {
             const filePath = path.join(eventsPath, file);
             const imported = await import(`file://${filePath.replace(/\\/g, "/")}`);
             const event = imported.default ?? imported;
-            if ("data" in event && "execute" in event) {
+            if (("data" in event || "name" in event) && "execute" in event) {
                 valids.push(event);
             }
             else {
@@ -54,12 +54,12 @@ export class EventService {
         const invalids = [];
         const resolved = path.resolve(filePath);
         const imported = (await import(`file://${resolved.replace(/\\/g, "/")}`));
-        const module = imported.default ?? imported;
-        if ("data" in module && "execute" in module) {
-            valids.push(module);
+        const event = imported.default ?? imported;
+        if (("data" in event || "name" in event) && "execute" in event) {
+            valids.push(event);
         }
         else {
-            invalids.push(module);
+            invalids.push(event);
         }
         return { valids, invalids };
     }

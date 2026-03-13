@@ -101,12 +101,12 @@ export class SlashService {
         const invalids: any[] = []
 
         const imported = await import(`file://${resolved.replace(/\\/g, "/")}`)
-        const module = imported.default ?? imported
+        const command = imported.default ?? imported
 
-        if ("data" in module && "execute" in module) {
-            valids.push(module)
+        if ("data" in command && "execute" in command) {
+            valids.push(command)
         } else {
-            invalids.push(module)
+            invalids.push(command)
         }
 
         return {valids, invalids}

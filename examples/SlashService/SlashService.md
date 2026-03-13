@@ -139,7 +139,7 @@ await myBot.connect();
 
 const commands = await SlashService.extractFile('./ping.js');
 
-await myBot.slashCommands.deploySlash(commands.valids);
+await myBot.slashCommands.deploySlash(commands.valid);
 await myBot.slashCommands.listen();
 ```
 
@@ -186,7 +186,7 @@ await myBot.connect();
 
 const commands = await SlashService.extractDir('./commands');
 
-await myBot.slashCommands.deploySlash(commands.valids);
+await myBot.slashCommands.deploySlash(commands.valid);
 await myBot.slashCommands.listen();
 ```
 
