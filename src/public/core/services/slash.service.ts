@@ -1,18 +1,22 @@
-import path from "path";
 import fs from "fs"
+import path from "path";
 
+import { Command } from "../../structures/slashServiceCommand.js";
+import { SlashOption } from "../../structures/slashServiceOption.js";
 import { SlashCommand } from "../../types/slash.types.js";
-import { DisfoxError } from "../../../internal/errors/_disfoxerror.js";
-import { DisfoxErrorCode } from "../../../internal/errors/_disfox.errorCode.js";
-
+import { DisfoxError } from "../../errors/_disfoxerror.js";
+import { DisfoxErrorCode } from "../../errors/_disfox.errorCode.js";
+import { dfx2djsC } from "../../../internal/utils/_dfx2djs.mjs";
 export class SlashService {
+    static Option = SlashOption;
+    static Command = Command;
     /**
      * Extracts slash commands from a directory and validates their structure.
      * A command is considered valid only if it exports both `data` and `execute`.
      * Returns an object separating valid and invalid commands.
      *
      * @param {string} dir - Path to the commands directory.
-     * @returns {Promise<ValidsSlash>} Object containing valid and invalid commands.
+     * @returns {Promise<ValidSlash>} Object containing valid and invalid commands.
      * 
      * @deprecated This method will be removed in v0.0.5
      * use extractSlashDir() or extractSlashFile()
@@ -21,8 +25,8 @@ export class SlashService {
         console.warn("The `SlashService.extractSlashCommands` method was deprecated in Disfox v0.0.5.\nUse `SlashService.extractFile()` or `SlashService.extractDir()`.")
         const cmdsPath = path.resolve(dir)
         const files = fs.readdirSync(cmdsPath).filter(f => f.endsWith(".js"))
-        const valids: SlashCommand[] = []
-        const invalids: any[] = []
+        const valid: SlashCommand[] = []
+        const invalid: any[] = []
 
         for (const file of files) {
             const filePath = path.join(cmdsPath, file);
@@ -30,13 +34,13 @@ export class SlashService {
             const command = imported.default ?? imported;
             
             if ("data" in command && "execute" in command) {
-                valids.push(command)
+                valid.push(command)
             } else {
-                invalids.push(command)
+                invalid.push(command)
             }
         }
 
-        return {valids, invalids};
+        return {valid, invalid};
     }
     /**
      * Extracts slash commands from a directory and validates their structure.
@@ -59,12 +63,17 @@ export class SlashService {
         for (const file of files) {
             const filePath = path.join(cmdsPath, file);
             const imported = await import(`file://${filePath.replace(/\\/g, "/")}`);
-            const command = imported.default ?? imported;
-            
-            if ("data" in command && "execute" in command) {
-                valid.push(command)
+
+            let COMMAND = imported.default ?? imported
+        
+        
+        if (COMMAND.cdata?.().isDFXM) COMMAND = dfx2djsC(COMMAND);
+    
+            if ("data" in COMMAND && "execute" in COMMAND) {
+                valid.push(COMMAND)
             } else {
-                invalid.push(command)
+                
+                invalid.push(COMMAND)
             }
         }
 
@@ -72,18 +81,14 @@ export class SlashService {
     }
     /**
      * Extracts a slash command from a single file and validates its structure.
-     *
-     * The file is dynamically imported and considered valid only if it exports
      * both `data` and `execute`.
-     *
      * Throws an error if the file extension is not `.js`.
      *
      * @param {string} filePath - Absolute or relative path to the command file.
      * @throws {DisfoxError} If the file extension is not supported.
-     * @returns {Promise<{ valids: SlashCommand[], invalids: any[] }>} 
-     * An object containing the validated command module separated as valid or invalid.
+     * @returns {Promise<SlashCommand[]>} 
      */
-    static async extractFile(filePath: string) {
+    static async extractFile(filePath: string) : Promise<SlashCommand[]> {
         const resolved = path.resolve(filePath)
 
         if (!filePath.endsWith('.js')) {
@@ -94,21 +99,14 @@ export class SlashService {
                 
             })
         }
-
-        const valid: SlashCommand[] = []
-        const invalid: any[] = []
-
-        const imported = await import(`file://${resolved.replace(/\\/g, "/")}`)
-        const command = imported.default ?? imported
-
-        if ("data" in command && "execute" in command) {
-            valid.push(command)
-        } else {
-            invalid.push(command)
-        }
-
-        return {valid, invalid}
-    }
     
+        const imported = await import(`file://${resolved.replace(/\\/g, "/")}`)
+        let COMMAND = imported.default ?? imported
+        
+        if (COMMAND.cdata?.().isDFXM) COMMAND = dfx2djsC(COMMAND);
+    
+        return [COMMAND];
+    }
+
 }
 

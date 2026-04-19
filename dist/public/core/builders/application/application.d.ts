@@ -1,7 +1,7 @@
-import { DiscordClient, AvatarInput } from "../../../types/discordclient.types.js";
-import { ActionService } from "./action.service.js";
-import { EventController } from "./events.controller.js";
-import { SlashController } from "./slash.controller.js";
+import { DiscordClient, AvatarInput } from "../../types/discordclient.types.js";
+import { ActionService } from "./appAction.js";
+import { EventController } from "../../../structures/events.controller.js";
+import { SlashController } from "../../../structures/slash.controller.js";
 interface SettingsType {
     client: DiscordClient;
     token: string;

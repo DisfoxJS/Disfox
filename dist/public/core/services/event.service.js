@@ -1,7 +1,7 @@
 import path from "path";
 import fs from "fs";
-import { DisfoxError } from "../../../internal/errors/_disfoxerror.js";
-import { DisfoxErrorCode } from "../../../internal/errors/_disfox.errorCode.js";
+import { DisfoxError } from "../../errors/_disfoxerror.js";
+import { DisfoxErrorCode } from "../../errors/_disfox.errorCode.js";
 export class EventService {
     /**
      * Extracts all event modules from a directory.
@@ -15,7 +15,7 @@ export class EventService {
      */
     static async extractDir(dir) {
         const eventsPath = path.resolve(dir);
-        const files = fs.readdirSync(eventsPath);
+        const files = fs.readdirSync(eventsPath).filter(f => f.endsWith(".js"));
         let valid = [];
         let invalid = [];
         for (const file of files) {
@@ -23,11 +23,7 @@ export class EventService {
             const imported = await import(`file://${filePath.replace(/\\/g, "/")}`);
             const event = imported.default ?? imported;
             if (("data" in event || "name" in event) && "execute" in event) {
-<<<<<<< HEAD
-                valids.push(event);
-=======
                 valid.push(event);
->>>>>>> 1f68da6 (Disfox 0.0.5-c)
             }
             else {
                 invalid.push(event);
@@ -60,17 +56,10 @@ export class EventService {
         const imported = (await import(`file://${resolved.replace(/\\/g, "/")}`));
         const event = imported.default ?? imported;
         if (("data" in event || "name" in event) && "execute" in event) {
-<<<<<<< HEAD
-            valids.push(event);
-        }
-        else {
-            invalids.push(event);
-=======
             valid.push(event);
         }
         else {
             invalid.push(event);
->>>>>>> 1f68da6 (Disfox 0.0.5-c)
         }
         return { valid, invalid };
     }

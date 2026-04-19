@@ -1,7 +1,7 @@
 import path from "path";
 import fs from "fs"
-import { DisfoxError } from "../../../internal/errors/_disfoxerror.js";
-import { DisfoxErrorCode } from "../../../internal/errors/_disfox.errorCode.js";
+import { DisfoxError } from "../../errors/_disfoxerror.js";
+import { DisfoxErrorCode } from "../../errors/_disfox.errorCode.js";
 
 interface EventType {
     data: Record<string, any>
@@ -26,8 +26,7 @@ export class EventService {
      */
     static async extractDir(dir: string): Promise<ValidEvents> {
         const eventsPath = path.resolve(dir)
-        const files = fs.readdirSync(eventsPath)
-
+        const files = fs.readdirSync(eventsPath).filter(f => f.endsWith(".js"))
         let valid: any[] = []
         let invalid: EventType[] = []
 

@@ -78,3 +78,29 @@ Disfox is now available on GitHub with **documentation, examples, and TypeScript
 
 ### Fixed
 - Fixed unwanted debug logs.
+
+## [0.0.6] - 2026-04-12
+
+### Fixed
+- Fixed bugs when deploying and listening **Slash Commands**.
+
+## [0.0.7] - 2026-04-??
+
+### Releases
+
+#### New Disfox Model
+We are introducing a **new model for structuring application systems**, called the **Disfox Model**.  
+> It is based on a Component-Based Architecture, focusing on reusable and modular components.
+
+#### New Structure: SlashCommands
+Slash commands can now be organized in a more structured and modular way.  
+We’ve also introduced new concepts like *marks/tags* to improve how commands are defined and managed.
+
+You can check the full documentation for **SlashService Command** and the **Disfox Model** [here](https://disfox.netlify.app/doc?doc=SlashService#topic-6).
+
+#### Internal Optimizations
+Several internal improvements have been made, resulting in better performance and overall efficiency.
+
+#### Official Documentation
+Disfox now has its own official documentation website, available at:  
+https://disfox.netlify.app

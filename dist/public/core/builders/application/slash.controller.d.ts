@@ -1,4 +1,4 @@
-import { DiscordClient } from "../../../types/discordclient.types.js";
+import { DiscordClient } from "../types/discordclient.types.js";
 interface SlashListenOptions {
     onError?: {
         message?: string;
