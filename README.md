@@ -66,7 +66,7 @@ await app.actions.setPresence(
 
 app.client.on(Events.ClientReady, async () => {
   // convert Disfox model to Discord.js SlashCommand structure
-  const command = await SlashService.convertsFile("./commands/ping.js");
+  const command = await SlashService.extractFile("./commands/ping.js");
 
   // deploy globally
   await app.slash.deployGlobal([command]);
