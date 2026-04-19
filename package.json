@@ -1,6 +1,6 @@
 {
   "name": "disfox",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "type": "module",
@@ -18,7 +18,7 @@
     "build": "tsc",
     "dev": "tsc --watch"
   },
-  "description": "Disfox is a framework that simplifies and organizes discord.js development.",
+  "description": "Disfox is a framework that simplifies and organizes discord.js development. https://disfox.netlify.app",
   "author": "xFoxyyy0",
   "license": "MIT",
   "devDependencies": {
