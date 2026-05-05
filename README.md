@@ -4,14 +4,23 @@
   </a>
 </p>
 
+
+
+
 <p align="center">
   <strong>Build Discord apps faster, cleaner, and smarter.</strong>
 </p>
 
 <p align="center">
   <a href="https://discord.gg/UuZnAuhhP6">
-    <img src="https://img.shields.io/badge/Community-Discord?logo=discord&style=for-the-badge&labelColor=0D1117&color=5865F2">
+    <img src="https://img.shields.io/badge/Community-Discord?logo=discord&labelColor=0D1117&color=5865F2">
   </a>
+  <img src="https://img.shields.io/badge/Built%20with-Discord.js-00A8FF?labelColor=0D1117">
+  <img src="https://img.shields.io/npm/v/disfox?labelColor=0D1117&color=3B82F6">
+</p>
+
+<p align="center">
+  <img src="https://skillicons.dev/icons?i=ts,js" />
 </p>
 
 **Disfox** is a **framework** that enhances and organizes **discord.js** development, making building Discord applications faster, cleaner, and more structured.
@@ -42,6 +51,21 @@ Disfox is currently **not compatible with CommonJS**.
 Only ES Modules (ESM) are supported.
 
 ### Example usage
+
+```js
+import { SlashOptions, SlashService, SlashTag } from "disfox";
+
+const command = new SlashService.Command("ping1")
+    .description("replies")
+//  .mark(SlashTag.AdminOnly) // Optional method to enable command tags, defining behavior within the Discord API.
+    .action(interaction => {
+        interaction.reply("Pong!");
+    });
+
+export default command;
+
+
+```
 
 ```js
 import { Client, GatewayIntentBits, ActivityType, Events } from "discord.js";
