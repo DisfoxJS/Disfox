@@ -23,6 +23,8 @@
   <img src="https://skillicons.dev/icons?i=ts,js" />
 </p>
 
+---
+
 **Disfox** is a **framework** that enhances and organizes **discord.js** development, making building Discord applications faster, cleaner, and more structured.
 
 **Examples and documentation available in [Official Documentation Site](https://disfox.netlify.app)**  
@@ -30,10 +32,24 @@
 
 ### Install
 
-`npm install disfox`
-`yarn add disfox`
-`pnpm add disfox`
-`bun add disfox`
+
+
+```cmd
+npm install disfox
+```
+
+```cmd
+yarn add disfox
+```
+
+```cmd
+pnpm add disfox
+```
+
+```cmd
+bun add disfox
+```
+
 
 ### Key Features
 
@@ -106,6 +122,8 @@ app.client.on(Events.ClientReady, async () => {
 
 ```
 
+---
+
 ### Status
 The framework is still **under development**. All suggestions and ideas are very welcome.
 
@@ -120,3 +138,4 @@ https://discord.gg/UuZnAuhhP6
 - [Github Repository](https://github.com/DisfoxJS/Disfox)
 - [Github Wiki](https://github.com/DisfoxJS/Disfox/wiki/What-is-Disfox%3F)
 - [Discord Community Server](https://discord.gg/UuZnAuhhP6)
+
