@@ -6,7 +6,7 @@ export declare class FileManage {
     }): Promise<{
         success: boolean;
         content: Record<string, string>;
-        errorContent: import("../../types/response.types.js").ErrorContentType;
+        errorContent: import("../../types/responseTypes.js").ErrorContentType;
         source: {
             title?: string;
             message?: string;

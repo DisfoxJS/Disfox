@@ -1,7 +1,7 @@
 import path from "path";
 import fs from "fs";
-import { DisfoxError } from "../../errors/_disfoxerror.js";
-import { DisfoxErrorCode } from "../../errors/_disfox.errorCode.js";
+import { DisfoxError } from "../../../internal/errors/_disfoxerror.js";
+import { DisfoxErrorCode } from "../../../internal/errors/_disfox.errorCode.js";
 export class EventService {
     /**
      * Extracts all event modules from a directory.

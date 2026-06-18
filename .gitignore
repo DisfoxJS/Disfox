@@ -1,4 +1,5 @@
 # Node.js
 node_modules/
+.vscode/
 .npmrc
-prototypes/
+.env

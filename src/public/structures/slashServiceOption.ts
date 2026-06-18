@@ -1,5 +1,3 @@
-'use strict';
-
 import { SlashOptions } from "./slashOptions.js";
 
 interface SlashInputSettings {
@@ -14,9 +12,9 @@ interface SlashInputSettings {
  */
 export class SlashOption {
     #name: string;
-    #inputDescription: string | null;
-    #inputType: SlashOptions[keyof SlashOptions] | null;
-    #isRequired: boolean;
+    #description: string | null;
+    #type: SlashOptions[keyof SlashOptions] | null;
+    #required: boolean;
     #settings: SlashInputSettings | Record<string, any>;
 
     /**
@@ -25,9 +23,9 @@ export class SlashOption {
      */
     constructor(name: string) {
         this.#name = name;
-        this.#inputType = null;
-        this.#inputDescription = null;
-        this.#isRequired = false;
+        this.#type = null;
+        this.#description = null;
+        this.#required = false;
         this.#settings = {};
     }
 
@@ -37,7 +35,7 @@ export class SlashOption {
      * @returns {this} The current SlashOption instance for chaining.
      */
     public type(type: SlashOptions[keyof SlashOptions]): this {
-        this.#inputType = type;
+        this.#type = type;
         return this;
     }
 
@@ -47,7 +45,7 @@ export class SlashOption {
      * @returns {this} The current SlashOption instance for chaining.
      */
     public description(description: string): this {
-        this.#inputDescription = description;
+        this.#description = description;
         return this;
     }
 
@@ -57,7 +55,7 @@ export class SlashOption {
      * @returns {this} The current SlashOption instance for chaining.
      */
     public required(isRequired: boolean): this {
-        this.#isRequired = isRequired;
+        this.#required = isRequired;
         return this;
     }
 
@@ -88,10 +86,14 @@ export class SlashOption {
     public get data() {
         return {
             name: this.#name,
-            inputType: this.#inputType,
-            inputDescription: this.#inputDescription,
-            isRequired: this.#isRequired,
+            type: this.#type,
+            description: this.#description,
+            required: this.#required,
             settings: this.#settings
         };
+    }
+
+    public get isRequired() {
+        return this.#required
     }
 }

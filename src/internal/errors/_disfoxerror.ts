@@ -12,7 +12,7 @@ interface DisfoxErrorType {
     details?: any
 }
 
-export class DisfoxError extends Error{
+export class DisfoxError extends Error {
     public code: DisfoxErrorCode
     public source?: DisfoxErrorSource
     public details?: any

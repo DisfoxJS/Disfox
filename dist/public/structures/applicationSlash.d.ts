@@ -8,6 +8,7 @@ interface SlashListenOptions {
 }
 export declare class ApplicationSlash {
     #private;
+    listening: boolean;
     constructor(client: Client);
     /**
      * Deploy slash commands globally.
@@ -23,17 +24,16 @@ export declare class ApplicationSlash {
      */
     deployGuilds(commands: any[], guilds: string[]): Promise<void>;
     /**
-     * @deprecated Will be removed in v0.0.5.
-     * Use {@link listen} instead.
-     */
-    listenCommands(commands: any[], onErrorMessage?: string): Promise<void>;
-    /**
      * Listen for slash command executions.
      *
      * @param data Listener configuration options.
-     * @param callback Optional callback executed after a command runs successfully.
+     * @param listener Optional listener executed after a command runs successfully.
      */
-    listen(data?: SlashListenOptions, callback?: (interaction: any) => any): Promise<void>;
+    listen(data?: SlashListenOptions, listener?: (interaction: any) => any): Promise<void>;
+    /**
+    * close the listener for slash command executions.
+    */
+    close(): void;
 }
 export {};
 //# sourceMappingURL=applicationSlash.d.ts.map

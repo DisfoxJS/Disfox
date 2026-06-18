@@ -11,8 +11,8 @@ var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (
 };
 var _ApplicationAction_client, _ApplicationAction_token;
 import { sendC } from "../core/utils/sendchannel.js";
-import { DisfoxError } from "../errors/_disfoxerror.js";
-import { DisfoxErrorCode } from "../errors/_disfox.errorCode.js";
+import { DisfoxError } from "../../internal/errors/_disfoxerror.js";
+import { DisfoxErrorCode } from "../../internal/errors/_disfox.errorCode.js";
 /**
  * Types for sending or replying messages
  */

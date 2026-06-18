@@ -1,9 +1,7 @@
-import { DisfoxErrorCode } from "../errors/_disfox.errorCode.js";
-import { DisfoxError } from "../errors/_disfoxerror.js";
-import { AvatarInput } from "../types/discordclient.types.js";
-import { Response } from "../core/modules/response.js";
-import { Client } from "discord.js";
-
+import { DisfoxErrorCode } from "../../internal/errors/_disfox.errorCode.js";
+import { DisfoxError } from "../../internal/errors/_disfoxerror.js";
+import { Client, Events, Interaction } from "discord.js";
+import { BehaviorTable } from "../core/modules/behaviorTable.js";
 interface SlashListenOptions {
     onError?: {
         message?: string
@@ -16,6 +14,8 @@ export class ApplicationSlash {
     #client: Client
     #globalSlash = new Map()
     #guildSlash = new Map()
+    #listener: ((interaction : Interaction) => Promise<void>) | null = null
+    listening: boolean = false;
 
     constructor(client: Client) {
         this.#client = client
@@ -27,7 +27,7 @@ export class ApplicationSlash {
      * @param commands List of slash command objects.
      */
     async deployGlobal(commands: any[]) {
-        console.log("RECEIVED: ", commands)
+        
         if (this.#client == null) {
             throw new DisfoxError({
                     "code": DisfoxErrorCode.UNKNOWN,
@@ -78,77 +78,44 @@ export class ApplicationSlash {
     }
 
     /**
-     * @deprecated Will be removed in v0.0.5.
-     * Use {@link listen} instead.
-     */
-    async listenCommands(commands: any[], onErrorMessage: string = "An error occurred while executing this command. Please try again later.") {
-        console.warn(
-            "The `.extractSlashCommands()` method was deprecated in Disfox v0.0.5.\nUse `SlashService.extractFile()` or `SlashService.extractDir()`."
-        )
-
-        const res = new Response({ commands, onErrorMessage });
-
-        (this.#client as any).on("interactionCreate", async (interaction: any) => {
-
-            if (!interaction.isChatInputCommand()) return
-
-            const cmd: any = commands.find(
-                c => c.data.name === interaction.commandName
-            )
-
-            if (!cmd) return
-
-            try {
-
-                await cmd.execute(interaction)
-                return interaction
-
-            } catch (err) {
-
-                await interaction.reply(onErrorMessage)
-
-                console.error(
-                    res.error({
-                        message: "Failed to execute Slash Command.",
-                        code: "sl_exe_err",
-                        content: err
-                    }).result
-                )
-            }
-        })
-    }
-
-    /**
      * Listen for slash command executions.
      *
      * @param data Listener configuration options.
-     * @param callback Optional callback executed after a command runs successfully.
+     * @param listener Optional listener executed after a command runs successfully.
      */
-    async listen(data: SlashListenOptions = {}, callback?: (interaction: any) => any) {
+    async listen(data: SlashListenOptions = {}, listener?: (interaction: any) => any) {
 
         const all = [
             ...this.#globalSlash.values(),
             ...this.#guildSlash.values()
         ];
 
+        this.#listener = async (interaction: any) => {
        
-        this.#client.on("interactionCreate", async (interaction: any) => {
-            
             if (!interaction.isChatInputCommand()) return
+
 
             const cmd: any = all.find(
                 c => c.data.name === interaction.commandName
             )
 
+
             if (!cmd) return
 
             try {
 
+                const behaviorTable : BehaviorTable | null = cmd.data.disfoxData?.behaviorTable ?? null;
+
+                if (behaviorTable) {
+                    const task = await behaviorTable.attachment.execute({cmd: cmd, interaction: interaction})
+                    if (!task.continue) return;
+                }
+
                 await cmd.execute(interaction)
 
-                if (callback) {
+                if (listener) {
                     try {
-                        await callback(interaction)
+                        await listener(interaction)
                     } catch (err) {
 
                         throw new DisfoxError({
@@ -186,7 +153,21 @@ export class ApplicationSlash {
                     }
                 })
             }
-        })
+        }
+
+        this.#client.on(Events.InteractionCreate, this.#listener)
+
+    }
+
+     /**
+     * close the listener for slash command executions.
+     */
+    close() {
+        if (!this.#listener) return;
+
+        this.#client.off(Events.InteractionCreate, this.#listener)
+        this.#listener = null;
+        this.listening = false;
     }
 
 }

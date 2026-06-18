@@ -1,8 +1,11 @@
-<p align="center">
-  <a href="https://disfox.netlify.app">
-  <img src="https://raw.githubusercontent.com/DisfoxJS/Disfox-assets/main/dfx.npm.png" width="500" />
+a<p align="center">
+  <a href="https://disfox.js.org">
+  <img src="https://disfox.netlify.app/assets/dfx-readme.png" width="500" />
   </a>
 </p>
+
+
+
 
 <p align="center">
   <strong>Build Discord apps faster, cleaner, and smarter.</strong>
@@ -10,13 +13,19 @@
 
 <p align="center">
   <a href="https://discord.gg/UuZnAuhhP6">
-    <img src="https://img.shields.io/badge/Community-Discord?logo=discord&style=for-the-badge&labelColor=0D1117&color=5865F2">
+    <img src="https://img.shields.io/badge/Community-Discord?logo=discord&labelColor=0D1117&color=5865F2">
   </a>
+  <img src="https://img.shields.io/badge/Built%20with-Discord.js-00A8FF?labelColor=0D1117">
+  <img src="https://img.shields.io/npm/v/disfox?labelColor=0D1117&color=3B82F6">
+</p>
+
+<p align="center">
+  <img src="https://skillicons.dev/icons?i=ts,js" />
 </p>
 
 **Disfox** is a **framework** that enhances and organizes **discord.js** development, making building Discord applications faster, cleaner, and more structured.
 
-**Examples and documentation available in [Official Documentation Site](https://disfox.netlify.app)**  
+**Examples and documentation available in [Official Documentation Site](https://disfox.js.org)**  
 
 
 ### Install
@@ -44,6 +53,21 @@ Only ES Modules (ESM) are supported.
 ### Example usage
 
 ```js
+import { SlashOptions, SlashService, SlashTag } from "disfox";
+
+const command = new SlashService.Command("ping1")
+    .description("replies")
+//  .mark(SlashTag.AdminOnly) // Optional method to enable command tags, defining behavior within the Discord API.
+    .action(interaction => {
+        interaction.reply("Pong!");
+    });
+
+export default command;
+
+
+```
+
+```js
 import { Client, GatewayIntentBits, ActivityType, Events } from "discord.js";
 import { Application, SlashService } from "disfox";
 
@@ -66,7 +90,7 @@ await app.actions.setPresence(
 
 app.client.on(Events.ClientReady, async () => {
   // convert Disfox model to Discord.js SlashCommand structure
-  const command = await SlashService.convertsFile("./commands/ping.js");
+  const command = await SlashService.extractFile("./commands/ping.js");
 
   // deploy globally
   await app.slash.deployGlobal([command]);
@@ -91,8 +115,9 @@ https://discord.gg/UuZnAuhhP6
 
 ### Disfox
 
-- [Official Documentation Site](https://disfox.netlify.app)
+- [Official Documentation Site](https://disfox.js.org)
 - [NPM Package](https://www.npmjs.com/package/disfox)
 - [Github Repository](https://github.com/DisfoxJS/Disfox)
 - [Github Wiki](https://github.com/DisfoxJS/Disfox/wiki/What-is-Disfox%3F)
 - [Discord Community Server](https://discord.gg/UuZnAuhhP6)
+- [Legacy Documentation Site](https://disfox.netlify.app)

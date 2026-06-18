@@ -1,8 +1,7 @@
 import path from "path";
 import fs from "fs"
-import { DisfoxError } from "../../errors/_disfoxerror.js";
-import { DisfoxErrorCode } from "../../errors/_disfox.errorCode.js";
-
+import { DisfoxError } from "../../../internal/errors/_disfoxerror.js";
+import { DisfoxErrorCode } from "../../../internal/errors/_disfox.errorCode.js";
 interface EventType {
     data: Record<string, any>
     execute: (...args: any[]) => void   

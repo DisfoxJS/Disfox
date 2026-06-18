@@ -1,10 +1,12 @@
-'use strict';
 
-import { ChatInputCommandInteraction, Interaction, InteractionContextType } from "discord.js";
+
+import { ChatInputCommandInteraction, CommandInteraction, InteractionContextType, } from "discord.js";
 import { SlashOption } from "./slashServiceOption.js";
 import { SlashTag } from '../enums/slashTag.js';
-import { DisfoxErrorCode } from "../errors/_disfox.errorCode.js";
-import { DisfoxError } from "../errors/_disfoxerror.js";
+import { DisfoxErrorCode } from "../../internal/errors/_disfox.errorCode.js";
+import { DisfoxError } from "../../internal/errors/_disfoxerror.js";
+import { BehaviorTable } from "../core/modules/behaviorTable.js";
+//import { DisfoxComponent } from "../core/modules/disfoxComponent.test.js";
 
 /**
  * Represents a Discord slash command definition, allowing for fluent configuration
@@ -17,6 +19,7 @@ export class Command {
     #contexts: InteractionContextType[];
     #options: SlashOption[];
     #tags: SlashTag[];
+    #behaviorTable? : BehaviorTable;
     #execute: (interaction: ChatInputCommandInteraction) => void;
 
     /**
@@ -24,6 +27,7 @@ export class Command {
      * @param {string} name - The unique name of the command (as it appears in Discord).
      */
     constructor(name: string) {
+        //super();
         this.#name = name;
         this.#description = null;
         this.#options = [];
@@ -90,11 +94,16 @@ export class Command {
         return this;
     }
 
+    public dock(component : BehaviorTable ) : this {
+        this.#behaviorTable = component
+        return this;
+    }
+
     /**
      * Retrieves the internal configuration data of the command.
      * @returns {Object} An object containing the command metadata, options, tags, and action callback.
      */
-    public cdata = () => {
+    public get data () {
         return {
             name: this.#name,
             description: this.#description,
@@ -102,7 +111,8 @@ export class Command {
             options: this.#options,
             tags: this.#tags,
             action: this.#execute,
-            isDFXM: this.#isDFXM
+            isDFXM: this.#isDFXM,
+            behaviorTable: this.#behaviorTable
         };
     };
 
@@ -111,8 +121,13 @@ export class Command {
      * @param {(interaction: Interaction) => void} callback - The function to run upon execution.
      * @returns {this} The current Command instance for chaining.
      */
-    public action(callback: (interaction: Interaction) => void): this {
+    public action(callback: (interaction: ChatInputCommandInteraction) => void): this {
         this.#execute = callback;
         return this;
+    }
+
+    public hasBehaviorT(): boolean {
+        if (!this.#behaviorTable) return false;
+        return true;
     }
 }

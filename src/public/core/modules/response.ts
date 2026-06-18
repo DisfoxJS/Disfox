@@ -1,5 +1,5 @@
 
-import { ErrorContentType, ResponseType } from "../../types/response.types.js";
+import { ErrorContentType, ResponseType } from "../../types/responseTypes.js";
 
 class Response {
     #success: boolean;

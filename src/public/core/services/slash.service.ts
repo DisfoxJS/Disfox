@@ -1,12 +1,23 @@
 import fs from "fs"
 import path from "path";
-
 import { Command } from "../../structures/slashServiceCommand.js";
 import { SlashOption } from "../../structures/slashServiceOption.js";
-import { SlashCommand } from "../../types/slash.types.js";
-import { DisfoxError } from "../../errors/_disfoxerror.js";
-import { DisfoxErrorCode } from "../../errors/_disfox.errorCode.js";
-import { dfx2djsC } from "../../../internal/utils/_dfx2djs.mjs";
+import { SlashCommand } from "../../types/slashTypes.js";
+import { DisfoxError } from "../../../internal/errors/_disfoxerror.js";
+import { DisfoxErrorCode } from "../../../internal//errors/_disfox.errorCode.js";
+import { Adapters } from "../../../adapters/Adapters.js";
+import { promises } from "dns";
+
+interface extractionOptions {
+    autoConverts?: boolean;
+    ignoreInvalidStructures?: boolean;
+}
+
+interface extractionValidates {
+    valid : SlashCommand[]
+    invalid : any[]
+}
+
 export class SlashService {
     static Option = SlashOption;
     static Command = Command;
@@ -42,6 +53,19 @@ export class SlashService {
 
         return {valid, invalid};
     }
+
+    
+    static async extractDir(
+        dir: string, 
+        options: extractionOptions & { ignoreInvalidStructures: true }
+    ): Promise<SlashCommand[]>;
+
+    
+    static async extractDir(
+        dir: string, 
+        options?: extractionOptions
+    ): Promise<extractionValidates>;
+
     /**
      * Extracts slash commands from a directory and validates their structure.
      *
@@ -50,11 +74,10 @@ export class SlashService {
      *
      * The result separates valid and invalid command modules.
      *
-     * @param {string} dir - Absolute or relative path to the directory containing command files.
-     * @returns {Promise<{ valid: SlashCommand[], invalid: any[] }>} 
+     *
      * An object containing arrays of valid and invalid commands.
      */
-    static async extractDir(dir: string) {
+    static async extractDir(dir: string, options? : extractionOptions) : Promise<extractionValidates | SlashCommand[]>  {
         const cmdsPath = path.resolve(dir)
         const files = fs.readdirSync(cmdsPath).filter(f => f.endsWith(".js"))
         const valid: SlashCommand[] = []
@@ -64,20 +87,20 @@ export class SlashService {
             const filePath = path.join(cmdsPath, file);
             const imported = await import(`file://${filePath.replace(/\\/g, "/")}`);
 
-            let COMMAND = imported.default ?? imported
+            let COMMAND : Command | any = imported.default ?? imported
         
-        
-        if (COMMAND.cdata?.().isDFXM) COMMAND = dfx2djsC(COMMAND);
-    
+            if ((COMMAND as Command).data?.isDFXM) if (options?.autoConverts) COMMAND = Adapters.slashModel(COMMAND);
+            
+
             if ("data" in COMMAND && "execute" in COMMAND) {
                 valid.push(COMMAND)
-            } else {
-                
+            } else {   
                 invalid.push(COMMAND)
             }
         }
 
-        return {valid, invalid};
+        if (options?.ignoreInvalidStructures) return valid;
+        return { valid, invalid };
     }
     /**
      * Extracts a slash command from a single file and validates its structure.
@@ -103,7 +126,7 @@ export class SlashService {
         const imported = await import(`file://${resolved.replace(/\\/g, "/")}`)
         let COMMAND = imported.default ?? imported
         
-        if (COMMAND.cdata?.().isDFXM) COMMAND = dfx2djsC(COMMAND);
+        if (COMMAND.cdata?.().isDFXM) COMMAND = Adapters.slashModel(COMMAND);
     
         return [COMMAND];
     }

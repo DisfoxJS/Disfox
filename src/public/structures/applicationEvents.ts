@@ -1,7 +1,5 @@
 import { Client } from "discord.js";
 
-
-
 interface EventType {
     data: Record<string, any>
     execute: (...args: any[]) => void   

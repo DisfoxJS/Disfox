@@ -1,4 +1,3 @@
-'use strict';
 var __classPrivateFieldSet = (this && this.__classPrivateFieldSet) || function (receiver, state, value, kind, f) {
     if (kind === "m") throw new TypeError("Private method is not writable");
     if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a setter");
@@ -10,7 +9,7 @@ var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (
     if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot read private member from an object whose class did not declare it");
     return kind === "m" ? f : kind === "a" ? f.call(receiver) : f ? f.value : state.get(receiver);
 };
-var _SlashOption_name, _SlashOption_inputDescription, _SlashOption_inputType, _SlashOption_isRequired, _SlashOption_settings;
+var _SlashOption_name, _SlashOption_description, _SlashOption_type, _SlashOption_required, _SlashOption_settings;
 /**
  * Represents an input option for a Discord slash command.
  * Allows for fluent configuration of input types, descriptions, requirements,
@@ -23,14 +22,14 @@ export class SlashOption {
      */
     constructor(name) {
         _SlashOption_name.set(this, void 0);
-        _SlashOption_inputDescription.set(this, void 0);
-        _SlashOption_inputType.set(this, void 0);
-        _SlashOption_isRequired.set(this, void 0);
+        _SlashOption_description.set(this, void 0);
+        _SlashOption_type.set(this, void 0);
+        _SlashOption_required.set(this, void 0);
         _SlashOption_settings.set(this, void 0);
         __classPrivateFieldSet(this, _SlashOption_name, name, "f");
-        __classPrivateFieldSet(this, _SlashOption_inputType, null, "f");
-        __classPrivateFieldSet(this, _SlashOption_inputDescription, null, "f");
-        __classPrivateFieldSet(this, _SlashOption_isRequired, false, "f");
+        __classPrivateFieldSet(this, _SlashOption_type, null, "f");
+        __classPrivateFieldSet(this, _SlashOption_description, null, "f");
+        __classPrivateFieldSet(this, _SlashOption_required, false, "f");
         __classPrivateFieldSet(this, _SlashOption_settings, {}, "f");
     }
     /**
@@ -39,7 +38,7 @@ export class SlashOption {
      * @returns {this} The current SlashOption instance for chaining.
      */
     type(type) {
-        __classPrivateFieldSet(this, _SlashOption_inputType, type, "f");
+        __classPrivateFieldSet(this, _SlashOption_type, type, "f");
         return this;
     }
     /**
@@ -48,7 +47,7 @@ export class SlashOption {
      * @returns {this} The current SlashOption instance for chaining.
      */
     description(description) {
-        __classPrivateFieldSet(this, _SlashOption_inputDescription, description, "f");
+        __classPrivateFieldSet(this, _SlashOption_description, description, "f");
         return this;
     }
     /**
@@ -57,7 +56,7 @@ export class SlashOption {
      * @returns {this} The current SlashOption instance for chaining.
      */
     required(isRequired) {
-        __classPrivateFieldSet(this, _SlashOption_isRequired, isRequired, "f");
+        __classPrivateFieldSet(this, _SlashOption_required, isRequired, "f");
         return this;
     }
     /**
@@ -85,11 +84,14 @@ export class SlashOption {
     get data() {
         return {
             name: __classPrivateFieldGet(this, _SlashOption_name, "f"),
-            inputType: __classPrivateFieldGet(this, _SlashOption_inputType, "f"),
-            inputDescription: __classPrivateFieldGet(this, _SlashOption_inputDescription, "f"),
-            isRequired: __classPrivateFieldGet(this, _SlashOption_isRequired, "f"),
+            type: __classPrivateFieldGet(this, _SlashOption_type, "f"),
+            description: __classPrivateFieldGet(this, _SlashOption_description, "f"),
+            required: __classPrivateFieldGet(this, _SlashOption_required, "f"),
             settings: __classPrivateFieldGet(this, _SlashOption_settings, "f")
         };
     }
+    get isRequired() {
+        return __classPrivateFieldGet(this, _SlashOption_required, "f");
+    }
 }
-_SlashOption_name = new WeakMap(), _SlashOption_inputDescription = new WeakMap(), _SlashOption_inputType = new WeakMap(), _SlashOption_isRequired = new WeakMap(), _SlashOption_settings = new WeakMap();
+_SlashOption_name = new WeakMap(), _SlashOption_description = new WeakMap(), _SlashOption_type = new WeakMap(), _SlashOption_required = new WeakMap(), _SlashOption_settings = new WeakMap();

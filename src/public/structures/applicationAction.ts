@@ -1,7 +1,7 @@
 import { ActivityType, Client, InteractionReplyOptions, PresenceStatusData, PresenceUpdateStatus, Status } from "discord.js";
 import { sendC } from "../core/utils/sendchannel.js";
-import { DisfoxError } from "../errors/_disfoxerror.js";
-import { DisfoxErrorCode } from "../errors/_disfox.errorCode.js";
+import { DisfoxError } from "../../internal/errors/_disfoxerror.js";
+import { DisfoxErrorCode } from "../../internal/errors/_disfox.errorCode.js";
 
 type AvatarInput = string | Buffer | ArrayBuffer | null;
 /**

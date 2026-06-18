@@ -51,11 +51,12 @@ export declare class SlashOption {
      */
     get data(): {
         name: string;
-        inputType: typeof import("discord.js").SlashCommandStringOption | typeof import("discord.js").SlashCommandNumberOption | typeof import("discord.js").SlashCommandChannelOption | typeof import("discord.js").SlashCommandBooleanOption | typeof import("discord.js").SlashCommandRoleOption | typeof import("discord.js").SlashCommandAttachmentOption | typeof import("discord.js").SlashCommandMentionableOption | null;
-        inputDescription: string | null;
-        isRequired: boolean;
+        type: typeof import("discord.js").SlashCommandStringOption | typeof import("discord.js").SlashCommandNumberOption | typeof import("discord.js").SlashCommandChannelOption | typeof import("discord.js").SlashCommandBooleanOption | typeof import("discord.js").SlashCommandRoleOption | typeof import("discord.js").SlashCommandAttachmentOption | typeof import("discord.js").SlashCommandMentionableOption | null;
+        description: string | null;
+        required: boolean;
         settings: Record<string, any> | SlashInputSettings;
     };
+    get isRequired(): boolean;
 }
 export {};
 //# sourceMappingURL=slashServiceOption.d.ts.map
