@@ -6,9 +6,11 @@ import { fileURLToPath } from "url";
 const dn = path.dirname(fileURLToPath(import.meta.url));
 const filepath = path.join(dn, "..", "data", "restricted.json");
 
+// Getting restricted id's array on restricted.json
 const restricted = await fs.readFile(filepath, "utf-8");
 const parsed = JSON.parse(restricted);
 
+// Creating the Behavior Table
 const table = new BehaviorTable({
     context: BehaviorContext.SlashCommand,
     restricted: {
@@ -22,11 +24,13 @@ const table = new BehaviorTable({
     }
 });
 
+// Creating the member option to apply timeout
 const memberOption = new SlashService.Option("member")
     .description("Select member to timeout")
     .type(SlashOptions.Mentionable)
     .required(true);
 
+// Creating Slash Command and applying the table and option.
 const command = new SlashService.Command("mute")
     .description("Apply timeout on member")
     .dock(table)
@@ -34,6 +38,7 @@ const command = new SlashService.Command("mute")
     .action(async interaction => {
         const user = interaction.options.getUser("member");
 
+        // Getting target member
         const member = await interaction.guild?.members.fetch(user.id);
 
         if (!member) {
@@ -55,3 +60,5 @@ const command = new SlashService.Command("mute")
     });
 
 export default command;
+
+// DisfoxJS org

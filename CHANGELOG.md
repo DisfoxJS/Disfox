@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.1.1] - 2026-06-18
+
+### Fixed
+
+Fixed event listener bugs in the EventService, as well as other issues from the previous version.
+
+### Github
+
+Added practical usage examples in separate files, available in the `/prototypes` directory.
+
+[Disfox Github examples](https://github.com/DisfoxJS/Disfox/tree/main/prototypes)
+
 ## [0.1.0] - 2026-06-18
 
 ### Added

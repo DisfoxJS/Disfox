@@ -1,6 +1,7 @@
-import { Client } from "discord.js";
+import { Client, ClientEvents } from "discord.js";
 interface EventType {
-    data: Record<string, any>;
+    data?: keyof ClientEvents;
+    name?: keyof ClientEvents;
     execute: (...args: any[]) => void;
 }
 export declare class ApplicationEvents {

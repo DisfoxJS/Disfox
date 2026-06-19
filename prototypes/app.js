@@ -1,7 +1,7 @@
 
 import "dotenv/config"
 import { Client, Events, GatewayIntentBits } from "discord.js"
-import { SlashService, Application } from "disfox"
+import { SlashService, Application, EventService } from "disfox"
 
 const client = new Client({
     intents: [
@@ -12,10 +12,10 @@ const client = new Client({
         ]
 })
 
-const token = process.env.TK
+const token = process.env.TOKEN
 
 if (!token) {
-    throw new Error("TK is not defined in .env");
+    throw new Error("TOKEN is not defined in .env");
 }
 
 const app = new Application({
@@ -24,14 +24,14 @@ const app = new Application({
 })
 
 
-const command = await SlashService.extractDir('./prototypes/commands', {
+const commands = await SlashService.extractDir('./prototypes/commands', {
     "autoConverts": true
 });
 
-app.connect()
+const events = await EventService.extractDir('./prototypes/events')
 
-app.client.once(Events.ClientReady, async () => {
-    console.log("Online")
-    await app.slash.deployGlobal(command.valid)
-    app.slash.listen();
-})
+await app.connect()
+
+await app.events.listenEvents(events.valid)
+await app.slash.deployGlobal(commands.valid)
+await app.slash.listen();

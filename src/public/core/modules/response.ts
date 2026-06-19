@@ -1,6 +1,8 @@
 
 import { ErrorContentType, ResponseType } from "../../types/responseTypes.js";
-
+/**
+ * @deprecated
+ */
 class Response {
     #success: boolean;
     #content: Record<string, string>

@@ -1,8 +1,8 @@
-import { SlashService, SlashTag } from "disfox";
+import { SlashService } from "disfox";
 
+// Creating the Slash Command with dfx model.
 const command = new SlashService.Command("ping")
     .description("replies with Pong!")
-    .mark(SlashTag.AdminOnly)
     .action(async interaction => {
         await interaction.reply("Pong!")
     });

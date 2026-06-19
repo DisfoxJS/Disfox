@@ -26,7 +26,8 @@ export class ApplicationEvents {
          */
     async listenEvents(events) {
         for (const event of events) {
-            __classPrivateFieldGet(this, _ApplicationEvents_client, "f").on(event.data, (...args) => {
+            const eventName = (event.data ?? event.name);
+            __classPrivateFieldGet(this, _ApplicationEvents_client, "f").on(eventName, (...args) => {
                 const message = args[0];
                 if (message && "author" in message && message.author?.bot)
                     return;

@@ -1,7 +1,8 @@
-import { Client } from "discord.js";
+import { Client, ClientEvents } from "discord.js";
 
 interface EventType {
-    data: Record<string, any>
+    data?: keyof ClientEvents;
+    name?: keyof ClientEvents;
     execute: (...args: any[]) => void   
 }
 
@@ -23,7 +24,9 @@ export class ApplicationEvents {
          */
     async listenEvents (events: EventType[]) {
         for (const event of events) {
-            (this.#client as any).on(event.data, (...args: any[]) => {
+            const eventName = (event.data ?? event.name) as keyof ClientEvents
+            
+            this.#client.on(eventName, (...args: any[]) => {
                     const message = args[0]
                         if (message && "author" in message && message.author?.bot) return;
                         event.execute(...args)

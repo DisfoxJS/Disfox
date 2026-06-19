@@ -54,7 +54,7 @@ export declare class SlashOption {
         type: typeof import("discord.js").SlashCommandStringOption | typeof import("discord.js").SlashCommandNumberOption | typeof import("discord.js").SlashCommandChannelOption | typeof import("discord.js").SlashCommandBooleanOption | typeof import("discord.js").SlashCommandRoleOption | typeof import("discord.js").SlashCommandAttachmentOption | typeof import("discord.js").SlashCommandMentionableOption | null;
         description: string | null;
         required: boolean;
-        settings: Record<string, any> | SlashInputSettings;
+        settings: SlashInputSettings | Record<string, any>;
     };
     get isRequired(): boolean;
 }

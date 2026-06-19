@@ -12,6 +12,9 @@ async function exists(path: string) {
     }
 }
 
+/**
+ * @deprecated
+ */
 export class FileManage {
     #files: Record<string, string>
 
